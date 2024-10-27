@@ -13,7 +13,6 @@ server.use(cors());
 server.use(express.json());
 server.use(morgan("combined"));
 server.use(express.static(path.resolve(__dirname, process.env.PUBLIC_DIR)));
-server.use(express.static(path.resolve(__dirname, "dist")));
 server.use("/products", productRouter.router);
 server.use("/users", userRouter.router);
 server.use("*", (req, res) => {
