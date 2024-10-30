@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Server Side Rendering</title>
+    <style>
+      .productCard {
+        border: 1px solid #ccc;
+        padding: 20px;
+        margin: 10px;
+        width: 300px;
+        position: relative;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+      }
+      .productCard:hover {
+        transform: scale(1.05);
+      }
+      .productImage {
+        width: 100%;
+        height: auto;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+      }
+      .productDetails {
+        padding-top: 10px;
+      }
+      .productTitle {
+        font-size: 1.5em;
+        margin: 0;
+      }
+      .productCategory,
+      .productPrice,
+      .productRating {
+        margin: 5px 0;
+      }
+      .deleteButton {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: none;
+        border: none;
+        font-size: 1.5em;
+        color: red;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <% for (let product of products) { %> <% if (product) { %>
+    <div class="productCard" id="<%= product._id %>">
+      <button
+        class="deleteButton"
+        onclick="deleteProduct('<%= product._id %>')"
+      >
+        &times;
+      </button>
+      <img
+        src="<%= product.thumbnail %>"
+        alt="<%= product.title %>"
+        class="productImage"
+      />
+      <div class="productDetails">
+        <h2 class="productTitle"><%= product.title %></h2>
+        <p class="productCategory">Category: <%= product.category %></p>
+        <p class="productPrice">Price: $<%= product.price %></p>
+        <p class="productRating">Rating: <%= product.rating %></p>
+      </div>
+    </div>
+    <% } %> <% } %>
+    <script>
+      async function deleteProduct(id) {
+        console.log("Delete product with ID:", id);
+        const response = await fetch("/products/" + id, {
+          method: "DELETE",
+        });
+        const doc = await response.json();
+        const ele = document.getElementById(doc._id);
+        ele.remove();
+      }
+    </script>
+  </body>
+</html>

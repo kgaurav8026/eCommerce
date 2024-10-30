@@ -4,8 +4,10 @@ const productController = require("../controller/product");
 
 router
   .post("/", productController.createProduct)
-  .get("/:id", productController.getProduct)
+  .get("/ssr", productController.getAllProductsSSR)
+  .get("/add", productController.getAddForm)
   .get("/", productController.getAllProducts)
+  .get("/:id", productController.getProduct)
   .put("/:id", productController.replaceProduct)
   .patch("/:id", productController.updateProduct)
   .delete("/:id", productController.deleteProduct);

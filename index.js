@@ -4,15 +4,18 @@ const morgan = require("morgan");
 const server = express();
 const path = require("path");
 const productRouter = require("./routes/product");
+const usersRouter = require("./routes/user");
 const cors = require("cors");
 // console.log("DB_PASSWORD :", process.env.DB_PASSWORD);
 
 // body parser
 server.use(cors());
 server.use(express.json());
+server.use(express.urlencoded());
 server.use(morgan("combined"));
 server.use(express.static(path.resolve(__dirname, process.env.PUBLIC_DIR)));
 server.use("/products", productRouter.router);
+server.use("/users", usersRouter.router);
 server.use("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "dist", "index.html"));
 });
